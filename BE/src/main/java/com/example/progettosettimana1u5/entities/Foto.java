@@ -22,7 +22,7 @@ public class Foto {
     @Setter(AccessLevel.NONE)
     private UUID id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String contenuto;
 
     @Column(nullable = false)
