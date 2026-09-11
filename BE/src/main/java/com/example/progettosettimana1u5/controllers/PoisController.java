@@ -3,7 +3,7 @@ package com.example.progettosettimana1u5.controllers;
 import com.example.progettosettimana1u5.payloads.poi.NewPoiDTO;
 import com.example.progettosettimana1u5.payloads.poi.PoiRespDTO;
 import com.example.progettosettimana1u5.services.PoiService;
-import jakarta.validation.Valid;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,7 +23,7 @@ public class PoisController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public PoiRespDTO create(@RequestBody @Valid NewPoiDTO body) {
+    public PoiRespDTO create(@RequestBody @Validated NewPoiDTO body) {
         return poiService.create(body);
     }
 
@@ -45,5 +45,11 @@ public class PoisController {
             @RequestParam BigDecimal ovest
     ) {
         return poiService.getByRiquadro(nord, sud, est, ovest);
+    }
+
+    @DeleteMapping("/{poiId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable UUID poiId) {
+        poiService.delete(poiId);
     }
 }

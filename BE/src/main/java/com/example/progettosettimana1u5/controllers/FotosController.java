@@ -4,7 +4,7 @@ import com.example.progettosettimana1u5.payloads.foto.FotoRespDTO;
 import com.example.progettosettimana1u5.payloads.foto.NewFotoDTO;
 import com.example.progettosettimana1u5.payloads.foto.UpdateFotoDTO;
 import com.example.progettosettimana1u5.services.FotoService;
-import jakarta.validation.Valid;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,7 +23,7 @@ public class FotosController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public FotoRespDTO create(@RequestBody @Valid NewFotoDTO body) {
+    public FotoRespDTO create(@RequestBody @Validated NewFotoDTO body) {
         return fotoService.create(body);
     }
 

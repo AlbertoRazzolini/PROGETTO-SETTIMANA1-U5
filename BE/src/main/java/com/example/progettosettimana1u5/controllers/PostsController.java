@@ -4,7 +4,7 @@ import com.example.progettosettimana1u5.payloads.post.NewPostDTO;
 import com.example.progettosettimana1u5.payloads.post.PostRespDTO;
 import com.example.progettosettimana1u5.payloads.post.UpdatePostDTO;
 import com.example.progettosettimana1u5.services.PostService;
-import jakarta.validation.Valid;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,7 +23,7 @@ public class PostsController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public PostRespDTO create(@RequestBody @Valid NewPostDTO body) {
+    public PostRespDTO create(@RequestBody @Validated NewPostDTO body) {
         return postService.create(body);
     }
 

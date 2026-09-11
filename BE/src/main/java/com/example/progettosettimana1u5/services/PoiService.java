@@ -50,4 +50,10 @@ public class PoiService {
         }
         return pois.stream().map(PoiRespDTO::from).toList();
     }
+
+    public void delete(UUID poiId) {
+        POI poi = poiRepository.findById(poiId)
+                .orElseThrow(() -> new NotFoundException("POI", poiId));
+        poiRepository.delete(poi);
+    }
 }
