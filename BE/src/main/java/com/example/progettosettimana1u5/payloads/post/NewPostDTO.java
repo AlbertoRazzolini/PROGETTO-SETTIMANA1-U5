@@ -1,5 +1,6 @@
 package com.example.progettosettimana1u5.payloads.post;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 
 import java.util.List;
@@ -14,6 +15,7 @@ public record NewPostDTO(
 
         UUID poiId,
 
+        @Valid
         List<NewFotoInPostDTO> foto
 ) {
 }

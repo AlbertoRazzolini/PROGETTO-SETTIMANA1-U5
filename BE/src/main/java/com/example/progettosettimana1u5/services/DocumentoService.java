@@ -89,6 +89,12 @@ public class DocumentoService {
         Documento documento = documentoRepository.findById(documentoId)
                 .orElseThrow(() -> new NotFoundException("Documento", documentoId));
         documentoRepository.delete(documento);
+
+        try {
+            Files.deleteIfExists(Path.of(documento.getContenuto()));
+        } catch (IOException e) {
+            throw new UncheckedIOException("Errore nella cancellazione del file del documento", e);
+        }
     }
 
     private File salvaFile(MultipartFile immagine) {
