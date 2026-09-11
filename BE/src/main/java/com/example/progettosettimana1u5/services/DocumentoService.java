@@ -34,6 +34,17 @@ public class DocumentoService {
     }
 
     public DocumentoRespDTO create(String titolo, MultipartFile immagine) {
+        if (!StringUtils.hasText(titolo)) {
+            throw new IllegalArgumentException("Il titolo è obbligatorio");
+        }
+        if (immagine == null || immagine.isEmpty()) {
+            throw new IllegalArgumentException("L'immagine è obbligatoria");
+        }
+        String contentType = immagine.getContentType();
+        if (contentType == null || !contentType.startsWith("image/")) {
+            throw new IllegalArgumentException("Il file caricato deve essere un'immagine");
+        }
+
         File file = salvaFile(immagine);
         String testo = ocrService.extractText(file);
 
