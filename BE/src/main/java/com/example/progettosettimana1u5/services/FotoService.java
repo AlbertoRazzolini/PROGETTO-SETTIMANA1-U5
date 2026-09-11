@@ -5,6 +5,7 @@ import com.example.progettosettimana1u5.entities.Post;
 import com.example.progettosettimana1u5.exceptions.NotFoundException;
 import com.example.progettosettimana1u5.payloads.foto.FotoRespDTO;
 import com.example.progettosettimana1u5.payloads.foto.NewFotoDTO;
+import com.example.progettosettimana1u5.payloads.foto.UpdateFotoDTO;
 import com.example.progettosettimana1u5.repositories.FotoRepository;
 import com.example.progettosettimana1u5.repositories.PostRepository;
 import org.springframework.stereotype.Service;
@@ -49,5 +50,26 @@ public class FotoService {
         Foto foto = fotoRepository.findById(fotoId)
                 .orElseThrow(() -> new NotFoundException("Foto", fotoId));
         return FotoRespDTO.from(foto);
+    }
+
+    @Transactional
+    public FotoRespDTO update(UUID fotoId, UpdateFotoDTO body) {
+        Foto foto = fotoRepository.findById(fotoId)
+                .orElseThrow(() -> new NotFoundException("Foto", fotoId));
+
+        if (body.contenuto() != null) {
+            foto.setContenuto(body.contenuto());
+        }
+        if (body.grandezza() != null) {
+            foto.setGrandezza(body.grandezza());
+        }
+
+        return FotoRespDTO.from(fotoRepository.save(foto));
+    }
+
+    public void delete(UUID fotoId) {
+        Foto foto = fotoRepository.findById(fotoId)
+                .orElseThrow(() -> new NotFoundException("Foto", fotoId));
+        fotoRepository.delete(foto);
     }
 }
