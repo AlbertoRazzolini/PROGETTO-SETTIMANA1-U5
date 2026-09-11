@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Base64;
 import java.util.List;
 import java.util.UUID;
 
@@ -53,6 +54,7 @@ public class DocumentoService {
         documento.setContenuto(file.getAbsolutePath());
         documento.setGrandezza(immagine.getSize());
         documento.setTesto(testo);
+        documento.setImmagineBase64(codificaBase64(file, contentType));
 
         return DocumentoRespDTO.from(documentoRepository.save(documento));
     }
@@ -94,6 +96,16 @@ public class DocumentoService {
             Files.deleteIfExists(Path.of(documento.getContenuto()));
         } catch (IOException e) {
             throw new UncheckedIOException("Errore nella cancellazione del file del documento", e);
+        }
+    }
+
+    private String codificaBase64(File file, String contentType) {
+        try {
+            byte[] bytes = Files.readAllBytes(file.toPath());
+            String base64 = Base64.getEncoder().encodeToString(bytes);
+            return "data:" + contentType + ";base64," + base64;
+        } catch (IOException e) {
+            throw new UncheckedIOException("Errore nella lettura dell'immagine del documento", e);
         }
     }
 

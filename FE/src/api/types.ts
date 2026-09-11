@@ -27,6 +27,7 @@ export interface DocumentoResp {
   titolo: string;
   contenuto: string;
   testo: string | null;
+  immagineBase64: string | null;
   grandezza: number;
   createdAt: string;
 }

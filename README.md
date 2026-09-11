@@ -75,8 +75,9 @@ POI
 Documento
  ├─ id: UUID
  ├─ titolo: String
- ├─ contenuto: String   (path assoluto del file sul server)
- ├─ testo: TEXT         (estratto via OCR alla creazione)
+ ├─ contenuto: String        (path assoluto del file sul server)
+ ├─ testo: TEXT              (estratto via OCR alla creazione)
+ ├─ immagineBase64: TEXT     (data URL dell'immagine, per la visualizzazione)
  ├─ grandezza: Long
  └─ createdAt: Instant
 ```
@@ -184,8 +185,8 @@ Sia per le foto dei post sia per i documenti, oltre alla scelta file è disponib
 
 ## Note e limiti noti
 
-- **Foto dei post come URL**: l'endpoint `/api/fotos` salva solo una coppia `(url, dimensione)`, senza upload binario. Il frontend genera quindi una *data URL* base64 dai file locali/scatti fotocamera e la invia come se fosse l'URL della foto; è anche possibile incollare direttamente un URL immagine esterno.
-- **Documenti non visualizzabili come immagine**: `Documento.contenuto` è il path assoluto del file **sul filesystem del server**, non un URL raggiungibile dal browser — non esiste un endpoint che serva quel file via HTTP. Il frontend mostra quindi solo i metadati e il testo estratto dall'OCR, non un'anteprima dell'immagine originale.
+- **Foto dei post come URL**: l'endpoint `/api/fotos` salva solo una coppia `(url, dimensione)`, senza upload binario. Il frontend genera quindi una *data URL* base64 dai file locali/scatti fotocamera e la invia come se fosse l'URL della foto (salvata così direttamente nella colonna `foto.contenuto`, di tipo `TEXT`); è anche possibile incollare direttamente un URL immagine esterno.
+- **Immagine dei documenti**: `Documento.contenuto` resta il path assoluto del file **sul filesystem del server** (usato per l'OCR e per l'eliminazione), non raggiungibile via HTTP. Per poterla comunque visualizzare dal frontend, alla creazione il backend legge anche i byte del file e li salva come *data URL* base64 in `Documento.immagineBase64`, restituita dall'API ed usata per l'anteprima.
 - Le liste vuote (`GET` senza risultati) rispondono con **404** invece di un array vuoto: il frontend lo normalizza internamente in lista vuota.
 
 ---

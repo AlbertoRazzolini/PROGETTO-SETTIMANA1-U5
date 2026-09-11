@@ -111,6 +111,23 @@ export function DocumentoDetailPage() {
               <span style={{ fontSize: 12, color: "var(--text-muted)" }}>{formatDate(doc.createdAt)}</span>
               <span className="badge">{formatBytes(doc.grandezza)}</span>
             </div>
+
+            {doc.immagineBase64 && (
+              <img
+                src={doc.immagineBase64}
+                alt={doc.titolo}
+                style={{
+                  width: "100%",
+                  maxHeight: 400,
+                  objectFit: "contain",
+                  borderRadius: "var(--radius-sm)",
+                  border: "1px solid var(--border)",
+                  background: "var(--bg)",
+                  marginBottom: 18,
+                }}
+              />
+            )}
+
             <strong style={{ display: "block", marginBottom: 8, fontSize: 13, color: "var(--text-muted)" }}>
               Testo estratto (OCR)
             </strong>

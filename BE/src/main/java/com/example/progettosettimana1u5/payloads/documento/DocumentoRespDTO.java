@@ -10,6 +10,7 @@ public record DocumentoRespDTO(
         String titolo,
         String contenuto,
         String testo,
+        String immagineBase64,
         Long grandezza,
         Instant createdAt
 ) {
@@ -19,6 +20,7 @@ public record DocumentoRespDTO(
                 documento.getTitolo(),
                 documento.getContenuto(),
                 documento.getTesto(),
+                documento.getImmagineBase64(),
                 documento.getGrandezza(),
                 documento.getCreatedAt()
         );

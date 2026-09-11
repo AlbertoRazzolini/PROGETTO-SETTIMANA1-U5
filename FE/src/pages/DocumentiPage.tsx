@@ -128,27 +128,59 @@ export function DocumentiPage() {
               key={doc.id}
               to={`/documenti/${doc.id}`}
               className="card"
-              style={{ display: "block", padding: 16, textDecoration: "none" }}
+              style={{ display: "flex", gap: 12, padding: 16, textDecoration: "none", alignItems: "center" }}
             >
-              <div className="row-between">
-                <strong>{doc.titolo}</strong>
-                <span style={{ fontSize: 12, color: "var(--text-muted)" }}>{formatDate(doc.createdAt)}</span>
+              {doc.immagineBase64 ? (
+                <img
+                  src={doc.immagineBase64}
+                  alt=""
+                  style={{
+                    width: 56,
+                    height: 56,
+                    objectFit: "cover",
+                    borderRadius: "var(--radius-sm)",
+                    flexShrink: 0,
+                  }}
+                />
+              ) : (
+                <span
+                  style={{
+                    width: 56,
+                    height: 56,
+                    borderRadius: "var(--radius-sm)",
+                    background: "var(--bg)",
+                    border: "1px solid var(--border)",
+                    display: "inline-flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontSize: 20,
+                    flexShrink: 0,
+                  }}
+                >
+                  📄
+                </span>
+              )}
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div className="row-between">
+                  <strong>{doc.titolo}</strong>
+                  <span style={{ fontSize: 12, color: "var(--text-muted)" }}>{formatDate(doc.createdAt)}</span>
+                </div>
+                <p
+                  style={{
+                    fontSize: 13,
+                    color: "var(--text-muted)",
+                    margin: "6px 0 0",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  {doc.testo ? doc.testo.replace(/\s+/g, " ").trim() : "Nessun testo estratto"}
+                </p>
+                <span className="badge" style={{ marginTop: 8 }}>
+                  {formatBytes(doc.grandezza)}
+                </span>
               </div>
-              <p
-                style={{
-                  fontSize: 13,
-                  color: "var(--text-muted)",
-                  margin: "6px 0 0",
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
-                  whiteSpace: "nowrap",
-                }}
-              >
-                {doc.testo ? doc.testo.replace(/\s+/g, " ").trim() : "Nessun testo estratto"}
-              </p>
-              <span className="badge" style={{ marginTop: 8 }}>
-                {formatBytes(doc.grandezza)}
-              </span>
             </Link>
           ))}
         </div>

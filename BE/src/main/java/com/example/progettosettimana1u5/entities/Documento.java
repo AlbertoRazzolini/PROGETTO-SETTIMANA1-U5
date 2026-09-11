@@ -31,6 +31,9 @@ public class Documento {
     @Column(columnDefinition = "TEXT")
     private String testo;
 
+    @Column(columnDefinition = "TEXT")
+    private String immagineBase64;
+
     @Column(nullable = false)
     private Long grandezza;
 
