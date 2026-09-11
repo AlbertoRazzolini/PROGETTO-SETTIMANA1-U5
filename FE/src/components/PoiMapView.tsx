@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import { MapContainer, Marker, Popup, TileLayer, useMap, useMapEvents } from "react-leaflet";
+import { Link } from "react-router-dom";
 import type { PoiResp, PostResp } from "../api/types";
 import { defaultIcon } from "./leafletIcons";
 
@@ -83,17 +84,59 @@ export function PoiMapView({ pois, posts, onCreateAt, onBoundsSearch, height = 4
           return (
             <Marker key={poi.id} position={[Number(poi.latitudine), Number(poi.longitudine)]} icon={defaultIcon}>
               <Popup>
-                <div style={{ minWidth: 160 }}>
+                <div style={{ minWidth: 200 }}>
                   <strong>{poi.indirizzo ?? "Posizione senza indirizzo"}</strong>
                   <p style={{ margin: "4px 0", fontSize: 12, color: "#666" }}>
                     {Number(poi.latitudine).toFixed(5)}, {Number(poi.longitudine).toFixed(5)}
                   </p>
                   {relatedPosts.length > 0 ? (
-                    <ul style={{ margin: 0, paddingLeft: 16, fontSize: 13 }}>
+                    <div style={{ display: "flex", flexDirection: "column", gap: 6, marginTop: 6 }}>
                       {relatedPosts.map((p) => (
-                        <li key={p.id}>{p.titolo}</li>
+                        <Link
+                          key={p.id}
+                          to={`/posts/${p.id}`}
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 8,
+                            textDecoration: "none",
+                            color: "inherit",
+                          }}
+                        >
+                          {p.foto[0] ? (
+                            <img
+                              src={p.foto[0].contenuto}
+                              alt=""
+                              style={{
+                                width: 40,
+                                height: 40,
+                                objectFit: "cover",
+                                borderRadius: 6,
+                                flexShrink: 0,
+                              }}
+                              onError={(e) => ((e.target as HTMLImageElement).style.visibility = "hidden")}
+                            />
+                          ) : (
+                            <span
+                              style={{
+                                width: 40,
+                                height: 40,
+                                borderRadius: 6,
+                                background: "#eee",
+                                flexShrink: 0,
+                                display: "inline-flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                fontSize: 16,
+                              }}
+                            >
+                              📝
+                            </span>
+                          )}
+                          <span style={{ fontSize: 13 }}>{p.titolo}</span>
+                        </Link>
                       ))}
-                    </ul>
+                    </div>
                   ) : (
                     <span style={{ fontSize: 12, color: "#999" }}>Nessun post collegato</span>
                   )}
